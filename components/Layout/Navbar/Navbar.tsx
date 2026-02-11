@@ -13,11 +13,12 @@ import {
   Menu,
   ChevronDown,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import NavbarDropdown from "./NavbarDropdown";
 
 const Navbar = () => {
   const router = useRouter();
+  const pathname = usePathname();
   const [activeIcon, setActiveIcon] = useState("Home");
   const [menuOpen, setMenuOpen] = useState(false);
   const [messagesOpen, setMessagesOpen] = useState(false);
@@ -57,9 +58,37 @@ const Navbar = () => {
     },
   ];
 
+  // Scroll to top function
+  const scrollToTop = (behavior: ScrollBehavior = "smooth") => {
+    window.scrollTo({
+      top: 0,
+      behavior: behavior,
+    });
+  };
+
   const handleNavigation = (path: string, id: string) => {
     setActiveIcon(id);
-    router.push(path);
+
+    // If already on home page and clicking home icon, scroll to top
+    if (path === "/" && pathname === "/") {
+      scrollToTop("smooth");
+    } else {
+      router.push(path);
+    }
+
+    closeAllDropdowns();
+  };
+
+  const handleLogoClick = () => {
+    setActiveIcon("Home");
+
+    // If already on home page, scroll to top, otherwise navigate to home
+    if (pathname === "/") {
+      scrollToTop("smooth");
+    } else {
+      router.push("/");
+    }
+
     closeAllDropdowns();
   };
 
@@ -78,13 +107,13 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             {/* Logo */}
             <div
-              className="flex items-center space-x-2 cursor-pointer"
-              onClick={() => handleNavigation("/", "Home")}
+              className="flex items-center space-x-2 cursor-pointer group"
+              onClick={handleLogoClick}
             >
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-400 rounded-lg flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-400 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
                 <span className="text-white font-bold text-xl">W</span>
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent hidden md:block">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent hidden md:block group-hover:scale-105 transition-transform">
                 WeLink
               </h1>
             </div>
