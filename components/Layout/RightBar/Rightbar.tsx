@@ -100,11 +100,6 @@ const Rightbar = () => {
     },
   ];
 
-  const birthdays = [
-    { id: 1, name: "Alex Johnson", today: true },
-    { id: 2, name: "Sarah Miller", today: false, daysLeft: 3 },
-    { id: 3, name: "Mike Wilson", today: false, daysLeft: 7 },
-  ];
 
   const suggestedFriends = [
     { id: 1, name: "Chris Evans", mutual: 15, avatar: "CE" },
@@ -220,40 +215,7 @@ const Rightbar = () => {
               </div>
             </div>
 
-            {/* Birthdays */}
-            <div className="mb-6 bg-gradient-to-r from-pink-50 to-orange-50 rounded-xl p-4 border border-pink-100">
-              <div className="flex items-center space-x-2 mb-3">
-                <Heart className="w-5 h-5 text-pink-500" />
-                <h3 className="font-semibold text-gray-900">Birthdays</h3>
-              </div>
-              <div className="space-y-3">
-                {birthdays.map((birthday) => (
-                  <div
-                    key={birthday.id}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-pink-400 to-pink-300 rounded-full flex items-center justify-center text-white">
-                        🎂
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {birthday.name}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {birthday.today
-                            ? "Birthday today!"
-                            : `${birthday.daysLeft} days left`}
-                        </p>
-                      </div>
-                    </div>
-                    <button className="text-sm text-pink-600 hover:text-pink-700 font-medium">
-                      {birthday.today ? "Wish" : "Remind"}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
+
           </>
         ) : (
           <>
@@ -282,7 +244,7 @@ const Rightbar = () => {
                     <div className="flex space-x-2">
                       <button className="flex-1 bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2">
                         <UserCheck className="w-4 h-4" />
-                        <span>Accept</span>
+                        <span className="text-white">Accept</span>
                       </button>
                       <button className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors">
                         Decline
@@ -326,12 +288,7 @@ const Rightbar = () => {
             </div>
           </>
         )}
-
-        {/* Footer Info */}
-        <div className="mt-6 pt-4 border-t border-gray-200 text-xs text-gray-500">
-          <p className="mb-2">Privacy • Terms • Advertising • Cookies • More</p>
-          <p>WeLink © 2024</p>
-        </div>
+ 
       </div>
     </aside>
   );

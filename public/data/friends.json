@@ -1,0 +1,151 @@
+{
+  "friendRequests": [
+    {
+      "id": 1,
+      "name": "Alex Johnson",
+      "username": "@alexj",
+      "avatar": "AJ",
+      "mutualFriends": 15,
+      "time": "2 hours ago",
+      "status": "pending"
+    },
+    {
+      "id": 2,
+      "name": "Sarah Miller",
+      "username": "@sarahm",
+      "avatar": "SM",
+      "mutualFriends": 8,
+      "time": "5 hours ago",
+      "status": "pending"
+    },
+    {
+      "id": 3,
+      "name": "Mike Wilson",
+      "username": "@mikew",
+      "avatar": "MW",
+      "mutualFriends": 23,
+      "time": "1 day ago",
+      "status": "pending"
+    },
+    {
+      "id": 4,
+      "name": "Emma Davis",
+      "username": "@emmad",
+      "avatar": "ED",
+      "mutualFriends": 5,
+      "time": "2 days ago",
+      "status": "pending"
+    }
+  ],
+  "sentRequests": [
+    {
+      "id": 5,
+      "name": "David Lee",
+      "username": "@davidl",
+      "avatar": "DL",
+      "mutualFriends": 12,
+      "time": "1 hour ago",
+      "status": "pending"
+    },
+    {
+      "id": 6,
+      "name": "Sophia Chen",
+      "username": "@sophiac",
+      "avatar": "SC",
+      "mutualFriends": 7,
+      "time": "3 hours ago",
+      "status": "pending"
+    },
+    {
+      "id": 7,
+      "name": "James Wilson",
+      "username": "@jamesw",
+      "avatar": "JW",
+      "mutualFriends": 19,
+      "time": "1 day ago",
+      "status": "pending"
+    }
+  ],
+  "blockedUsers": [
+    {
+      "id": 8,
+      "name": "Robert Brown",
+      "username": "@robertb",
+      "avatar": "RB",
+      "blockedDate": "2 weeks ago"
+    },
+    {
+      "id": 9,
+      "name": "Lisa Wang",
+      "username": "@lisaw",
+      "avatar": "LW",
+      "blockedDate": "1 month ago"
+    }
+  ],
+  "friends": [
+    {
+      "id": 101,
+      "name": "Emily Clark",
+      "username": "@emilyc",
+      "avatar": "EC",
+      "mutualFriends": 32,
+      "since": "2 years ago"
+    },
+    {
+      "id": 102,
+      "name": "Daniel Martinez",
+      "username": "@danielm",
+      "avatar": "DM",
+      "mutualFriends": 18,
+      "since": "1 year ago"
+    },
+    {
+      "id": 103,
+      "name": "Jessica Taylor",
+      "username": "@jessicat",
+      "avatar": "JT",
+      "mutualFriends": 24,
+      "since": "8 months ago"
+    },
+    {
+      "id": 104,
+      "name": "Thomas Anderson",
+      "username": "@thomasa",
+      "avatar": "TA",
+      "mutualFriends": 41,
+      "since": "3 years ago"
+    }
+  ],
+  "suggestions": [
+    {
+      "id": 201,
+      "name": "Natalie Brown",
+      "username": "@natalieb",
+      "avatar": "NB",
+      "mutualFriends": 9,
+      "occupation": "Product Designer"
+    },
+    {
+      "id": 202,
+      "name": "Kevin Parker",
+      "username": "@kevinp",
+      "avatar": "KP",
+      "mutualFriends": 14,
+      "occupation": "Frontend Developer"
+    },
+    {
+      "id": 203,
+      "name": "Rachel Green",
+      "username": "@rachelg",
+      "avatar": "RG",
+      "mutualFriends": 6,
+      "occupation": "UX Researcher"
+    }
+  ],
+  "stats": {
+    "totalFriends": 128,
+    "pendingRequests": 4,
+    "sentRequests": 3,
+    "blockedCount": 2
+  }
+}

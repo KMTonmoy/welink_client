@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
+import logo from "@/public/assets/logo.png";
 import {
   Home,
   Users,
@@ -110,8 +112,15 @@ const Navbar = () => {
               className="flex items-center space-x-2 cursor-pointer group"
               onClick={handleLogoClick}
             >
-              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-purple-400 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
-                <span className="text-white font-bold text-xl">W</span>
+              <div className="w-10 h-10 relative">
+                <Image
+                  src={logo}
+                  alt="WeLink Logo"
+                  className="object-contain"
+                  width={40}
+                  height={40}
+                  priority
+                />{" "}
               </div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent hidden md:block group-hover:scale-105 transition-transform">
                 WeLink
