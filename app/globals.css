@@ -57,7 +57,7 @@
   h4,
   h5,
   h6 {
-    @apply font-bold leading-tight text-heading-purple;
+    @apply font-bold leading-tight;
   }
 
   h1 {
@@ -76,7 +76,7 @@
   li,
   span,
   div {
-    @apply text-paragraph-gray text-base;
+    @apply text-base;
   }
 
   a {

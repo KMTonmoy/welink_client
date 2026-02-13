@@ -1,28 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
+import { Users, UserPlus, Search } from "lucide-react";
 import {
-  Search,
-  Video,
-  MoreHorizontal,
-  UserPlus,
-  Users,
-  UserCheck,
-  UserX,
-  MessageCircle,
-  Mail,
-  Phone,
-  Camera,
-  MapPin,
-  Briefcase,
-  GraduationCap,
-  Heart,
-} from "lucide-react";
+  Contact,
+  Message,
+  FriendRequest,
+  SuggestedFriend,
+} from "../../../types/rightbar_types";
+import ContactsList from "./ContactsList";
+import ChatWindow from "./ChatWindow";
+import FriendRequests from "./FriendRequests";
+import SuggestedFriends from "./SuggestedFriends";
 
 const Rightbar = () => {
   const [activeTab, setActiveTab] = useState("contacts");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedChat, setSelectedChat] = useState<Contact | null>(null);
+  const [currentUserId] = useState(999); // Current user ID
 
-  const contacts = [
+  // Contacts Data
+  const [contacts] = useState<Contact[]>([
     {
       id: 1,
       name: "Alex Johnson",
@@ -79,9 +77,10 @@ const Rightbar = () => {
       online: true,
       lastSeen: "Online",
     },
-  ];
+  ]);
 
-  const friendRequests = [
+  // Friend Requests Data
+  const [friendRequests, setFriendRequests] = useState<FriendRequest[]>([
     { id: 1, name: "David Lee", mutual: 12, avatar: "DL", time: "5 min ago" },
     { id: 2, name: "Sophia Chen", mutual: 8, avatar: "SC", time: "1 hour ago" },
     {
@@ -98,199 +97,183 @@ const Rightbar = () => {
       avatar: "OT",
       time: "1 day ago",
     },
-  ];
+  ]);
 
-
-  const suggestedFriends = [
+  // Suggested Friends Data
+  const [suggestedFriends] = useState<SuggestedFriend[]>([
     { id: 1, name: "Chris Evans", mutual: 15, avatar: "CE" },
     { id: 2, name: "Emma Watson", mutual: 8, avatar: "EW" },
     { id: 3, name: "Tom Holland", mutual: 20, avatar: "TH" },
-  ];
+  ]);
+
+  // Messages Data
+  const [messages, setMessages] = useState<{ [key: number]: Message[] }>({
+    1: [
+      {
+        id: 1,
+        senderId: 1,
+        text: "Hey! How are you?",
+        time: "10:30 AM",
+        isMe: false,
+      },
+      {
+        id: 2,
+        senderId: 999,
+        text: "I'm good! How about you?",
+        time: "10:31 AM",
+        isMe: true,
+      },
+      {
+        id: 3,
+        senderId: 1,
+        text: "Check out this photo!",
+        time: "10:32 AM",
+        isMe: false,
+        image: "https://picsum.photos/200/200?random=1",
+      },
+    ],
+    2: [
+      {
+        id: 1,
+        senderId: 2,
+        text: "Are we still meeting tomorrow?",
+        time: "9:15 AM",
+        isMe: false,
+      },
+      {
+        id: 2,
+        senderId: 999,
+        text: "Yes, 3 PM works!",
+        time: "9:16 AM",
+        isMe: true,
+      },
+    ],
+    4: [
+      {
+        id: 1,
+        senderId: 4,
+        text: "Thanks for your help yesterday!",
+        time: "11:00 AM",
+        isMe: false,
+      },
+      {
+        id: 2,
+        senderId: 999,
+        text: "You're welcome! Happy to help 😊",
+        time: "11:02 AM",
+        isMe: true,
+      },
+    ],
+  });
+
+  // Handlers
+  const handleAcceptRequest = (id: number) => {
+    setFriendRequests((prev) => prev.filter((req) => req.id !== id));
+  };
+
+  const handleDeclineRequest = (id: number) => {
+    setFriendRequests((prev) => prev.filter((req) => req.id !== id));
+  };
+
+  const handleAddFriend = (id: number) => {
+    console.log(`Add friend: ${id}`);
+  };
+
+  const handleSendMessage = (
+    contactId: number,
+    text: string,
+    image?: string,
+  ) => {
+    const newMessage: Message = {
+      id: messages[contactId]?.length + 1 || 1,
+      senderId: currentUserId,
+      text,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      isMe: true,
+      image,
+    };
+
+    setMessages((prev) => ({
+      ...prev,
+      [contactId]: [...(prev[contactId] || []), newMessage],
+    }));
+  };
 
   return (
-    <aside className="hidden xl:block w-80 border-l border-gray-200 bg-white overflow-y-auto sticky top-16 h-[calc(100vh-4rem)]">
-      <div className="p-4">
-        {/* Tabs */}
-        <div className="flex border-b border-gray-200 mb-4">
-          <button
-            onClick={() => setActiveTab("contacts")}
-            className={`flex-1 py-3 text-center font-medium text-sm ${
-              activeTab === "contacts"
-                ? "text-purple-600 border-b-2 border-purple-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            <div className="flex items-center justify-center space-x-2">
-              <Users className="w-4 h-4" />
-              <span>Contacts</span>
-            </div>
-          </button>
-          <button
-            onClick={() => setActiveTab("requests")}
-            className={`flex-1 py-3 text-center font-medium text-sm ${
-              activeTab === "requests"
-                ? "text-purple-600 border-b-2 border-purple-600"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            <div className="flex items-center justify-center space-x-2">
-              <UserPlus className="w-4 h-4" />
-              <span>Requests</span>
-              {friendRequests.length > 0 && (
-                <span className="bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  {friendRequests.length}
-                </span>
-              )}
-            </div>
-          </button>
+    <>
+      <aside className="hidden xl:block w-80 border-l border-gray-200 bg-white overflow-y-auto sticky top-16 h-[calc(100vh-4rem)] scrollbar-hide">
+        <div className="p-4">
+          {/* Tabs */}
+          <div className="flex border-b border-gray-200 mb-4">
+            <button
+              onClick={() => setActiveTab("contacts")}
+              className={`flex-1 py-3 text-center font-medium text-sm ${
+                activeTab === "contacts"
+                  ? "text-purple-600 border-b-2 border-purple-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <div className="flex items-center justify-center space-x-2">
+                <Users className="w-4 h-4" />
+                <span>Contacts</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab("requests")}
+              className={`flex-1 py-3 text-center font-medium text-sm ${
+                activeTab === "requests"
+                  ? "text-purple-600 border-b-2 border-purple-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <div className="flex items-center justify-center space-x-2">
+                <UserPlus className="w-4 h-4" />
+                <span>Requests</span>
+                {friendRequests.length > 0 && (
+                  <span className="bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                    {friendRequests.length}
+                  </span>
+                )}
+              </div>
+            </button>
+          </div>
+
+          {/* Content */}
+          {activeTab === "contacts" ? (
+            <ContactsList
+              contacts={contacts}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              onChatOpen={setSelectedChat}
+            />
+          ) : (
+            <>
+              <FriendRequests
+                requests={friendRequests}
+                onAccept={handleAcceptRequest}
+                onDecline={handleDeclineRequest}
+              />
+              <SuggestedFriends
+                suggestions={suggestedFriends}
+                onAdd={handleAddFriend}
+              />
+            </>
+          )}
         </div>
+      </aside>
 
-        {/* Search */}
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <input
-            type="text"
-            placeholder="Search contacts..."
-            className="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-full text-sm focus:outline-none focus:bg-white focus:ring-2 focus:ring-purple-600"
-          />
-        </div>
-
-        {activeTab === "contacts" ? (
-          <>
-            {/* Contacts */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-gray-900">
-                  Contacts ({contacts.length})
-                </h3>
-                <div className="flex items-center space-x-2">
-                  <button className="p-1.5 rounded-full hover:bg-gray-100">
-                    <Video className="w-4 h-4 text-gray-500" />
-                  </button>
-                  <button className="p-1.5 rounded-full hover:bg-gray-100">
-                    <Search className="w-4 h-4 text-gray-500" />
-                  </button>
-                  <button className="p-1.5 rounded-full hover:bg-gray-100">
-                    <MoreHorizontal className="w-4 h-4 text-gray-500" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                {contacts.map((contact) => (
-                  <div
-                    key={contact.id}
-                    className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 cursor-pointer group"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="relative">
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-400 rounded-full flex items-center justify-center text-white font-bold">
-                          {contact.avatar}
-                        </div>
-                        {contact.online && (
-                          <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                        )}
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {contact.name}
-                        </p>
-                        <p
-                          className={`text-xs ${contact.online ? "text-green-500" : "text-gray-500"}`}
-                        >
-                          {contact.online ? "Online" : contact.lastSeen}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button className="p-1.5 rounded-full hover:bg-blue-50 text-blue-500">
-                        <MessageCircle className="w-4 h-4" />
-                      </button>
-                      <button className="p-1.5 rounded-full hover:bg-purple-50 text-purple-500">
-                        <Video className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-
-          </>
-        ) : (
-          <>
-            {/* Friend Requests */}
-            <div className="mb-6">
-              <h3 className="font-semibold text-gray-900 mb-3">
-                Friend Requests ({friendRequests.length})
-              </h3>
-              <div className="space-y-4">
-                {friendRequests.map((request) => (
-                  <div key={request.id} className="p-4 bg-gray-50 rounded-xl">
-                    <div className="flex items-center space-x-3 mb-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-400 rounded-full flex items-center justify-center text-white font-bold">
-                        {request.avatar}
-                      </div>
-                      <div>
-                        <p className="font-bold text-gray-900">
-                          {request.name}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {request.mutual} mutual friends
-                        </p>
-                        <p className="text-xs text-gray-400">{request.time}</p>
-                      </div>
-                    </div>
-                    <div className="flex space-x-2">
-                      <button className="flex-1 bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition-colors flex items-center justify-center space-x-2">
-                        <UserCheck className="w-4 h-4" />
-                        <span className="text-white">Accept</span>
-                      </button>
-                      <button className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-300 transition-colors">
-                        Decline
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Suggested Friends */}
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-4 border border-blue-100">
-              <h3 className="font-semibold text-gray-900 mb-3">
-                Suggested Friends
-              </h3>
-              <div className="space-y-3">
-                {suggestedFriends.map((friend) => (
-                  <div
-                    key={friend.id}
-                    className="flex items-center justify-between"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-cyan-500 to-blue-400 rounded-full flex items-center justify-center text-white font-bold">
-                        {friend.avatar}
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {friend.name}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {friend.mutual} mutual friends
-                        </p>
-                      </div>
-                    </div>
-                    <button className="px-3 py-1.5 bg-blue-100 text-blue-600 text-sm rounded-lg hover:bg-blue-200 font-medium">
-                      Add
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
-        )}
- 
-      </div>
-    </aside>
+      {/* Chat Window */}
+      <ChatWindow
+        contact={selectedChat}
+        messages={selectedChat ? messages[selectedChat.id] || [] : []}
+        currentUserId={currentUserId}
+        onClose={() => setSelectedChat(null)}
+        onSendMessage={handleSendMessage}
+      />
+    </>
   );
 };
 
